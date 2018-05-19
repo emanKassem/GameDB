@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/companies"
+            android:icon="@drawable/ic_company_24px"
+            android:title="@string/companies" />
+        <item
+            android:id="@+id/franchises"
+            android:icon="@drawable/ic_franchises_24px"
+            android:title="@string/franchises" />
+        <item
+            android:id="@+id/pages"
+            android:icon="@drawable/ic_page_24px"
+            android:title="@string/pages" />
+        <item
+            android:id="@+id/reviews"
+            android:icon="@drawable/ic_baseline_rate_review_24px"
+            android:title="@string/reviews" />
+    </group>
+
+    <item android:title="@string/themes">
+        <menu>
+            <item
+                android:id="@+id/action"
+                android:icon="@drawable/ic_baseline_movie_24px"
+                android:title="@string/action" />
+            <item
+                android:id="@+id/historical"
+                android:icon="@drawable/ic_baseline_movie_24px"
+                android:title="@string/historical" />
+            <item
+                android:id="@+id/horror"
+                android:icon="@drawable/ic_baseline_movie_24px"
+                android:title="@string/horror" />
+            <item
+                android:id="@+id/drama"
+                android:icon="@drawable/ic_baseline_movie_24px"
+                android:title="@string/drama" />
+            <item
+                android:id="@+id/mystery"
+                android:icon="@drawable/ic_baseline_movie_24px"
+                android:title="@string/mystery" />
+        </menu>
+    </item>
+<item android:title="@string/game_modes">
+        <menu>
+            <item
+                android:id="@+id/single_player"
+                android:icon="@drawable/ic_single_user_24px"
+                android:title="@string/single_player" />
+            <item
+                android:id="@+id/multipe_player"
+                android:icon="@drawable/ic_multi_users_24px"
+                android:title="@string/multiplayers" />
+        </menu>
+    </item>
+
+</menu>
