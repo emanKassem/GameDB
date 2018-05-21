@@ -39,10 +39,12 @@ public class Game {
     @SerializedName("first_release_date")
     @Expose
     private Double firstReleaseDate;
-
     @SerializedName("screenshots")
     @Expose
     private List<Url> screenshots = null;
+    @SerializedName("release_dates")
+    @Expose
+    private List<Date> release_dates = null;
     @SerializedName("cover")
     @Expose
     private Url cover;
@@ -149,5 +151,14 @@ public class Game {
 
     public void setCover(Url cover) {
         this.cover = cover;
+    }
+
+
+    public List<Date> getRelease_dates() {
+        return release_dates;
+    }
+
+    public void setRelease_dates(List<Date> release_dates) {
+        this.release_dates = release_dates;
     }
 }

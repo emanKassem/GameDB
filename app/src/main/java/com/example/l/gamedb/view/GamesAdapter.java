@@ -58,7 +58,7 @@ public class GamesAdapter extends RecyclerView.Adapter<GamesAdapter.GamesViewHol
         requestQueue.add(request);
 
         holder.gameTextView.setText(games.get(position).getName());
-        holder.releaseDateTextView.setText(String.valueOf(games.get(position).getFirstReleaseDate()));
+        holder.releaseDateTextView.setText(String.valueOf(games.get(position).getRelease_dates().get(0).getDate()));
 
 
     }
