@@ -36,9 +36,6 @@ public class Game {
     @SerializedName("themes")
     @Expose
     private List<Integer> themes = null;
-    @SerializedName("first_release_date")
-    @Expose
-    private Double firstReleaseDate;
     @SerializedName("screenshots")
     @Expose
     private List<Url> screenshots = null;
@@ -127,14 +124,6 @@ public class Game {
 
     public void setThemes(List<Integer> themes) {
         this.themes = themes;
-    }
-
-    public Double getFirstReleaseDate() {
-        return firstReleaseDate;
-    }
-
-    public void setFirstReleaseDate(Double firstReleaseDate) {
-        this.firstReleaseDate = firstReleaseDate;
     }
 
     public List<Url> getScreenshots() {

@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
@@ -60,6 +61,10 @@ public class GamesAdapter extends RecyclerView.Adapter<GamesAdapter.GamesViewHol
         holder.gameTextView.setText(games.get(position).getName());
         holder.releaseDateTextView.setText(String.valueOf(games.get(position).getRelease_dates().get(0).getDate()));
 
+        Double rate = games.get(position).getTotalRating();
+        //float rateCount = (float) (rate*5/100);
+        holder.ratingBar.setRating(4);
+
 
     }
 
@@ -76,16 +81,8 @@ public class GamesAdapter extends RecyclerView.Adapter<GamesAdapter.GamesViewHol
         TextView gameTextView;
         @BindView(R.id.releaseDateTextView)
         TextView releaseDateTextView;
-        @BindView(R.id.star1ImageView)
-        ImageView stare1ImageView;
-        @BindView(R.id.star2ImageView)
-        ImageView star2ImageView;
-        @BindView(R.id.star3ImageView)
-        ImageView star3ImageView;
-        @BindView(R.id.star4ImageView)
-        ImageView star4ImageView;
-        @BindView(R.id.star5ImageView)
-        ImageView star5ImageView;
+        @BindView(R.id.ratingBar)
+        RatingBar ratingBar;
         public GamesViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
