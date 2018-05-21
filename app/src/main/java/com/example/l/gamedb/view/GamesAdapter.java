@@ -43,7 +43,7 @@ public class GamesAdapter extends RecyclerView.Adapter<GamesAdapter.GamesViewHol
     public void onBindViewHolder(@NonNull final GamesViewHolder holder, int position) {
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);
-        ImageRequest request = new ImageRequest(games.get(position).getCover().getUrl(),
+        ImageRequest request = new ImageRequest("http:"+games.get(position).getCover().getUrl(),
                 new Response.Listener<Bitmap>() {
                     @Override
                     public void onResponse(Bitmap bitmap) {

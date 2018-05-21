@@ -1,6 +1,7 @@
 package com.example.l.gamedb.view;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,6 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 
 import com.android.volley.VolleyError;
 import com.example.l.gamedb.BuildConfig;
@@ -73,6 +76,7 @@ public class GamesFragment extends Fragment{
                 gameRecyclerView.setLayoutManager(layoutManager);
                 GamesAdapter gamesAdapter = new GamesAdapter(getActivity(), games);
                 gameRecyclerView.setAdapter(gamesAdapter);
+                runLayoutAnimation(gameRecyclerView);
             }
 
             @Override
@@ -81,5 +85,15 @@ public class GamesFragment extends Fragment{
             }
 
         });
+    }
+
+    private void runLayoutAnimation(final RecyclerView recyclerView) {
+        final Context context = recyclerView.getContext();
+        final LayoutAnimationController controller =
+                AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_fall_down);
+
+        recyclerView.setLayoutAnimation(controller);
+        recyclerView.getAdapter().notifyDataSetChanged();
+        recyclerView.scheduleLayoutAnimation();
     }
 }
