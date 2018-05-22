@@ -43,27 +43,34 @@ public class GamesAdapter extends RecyclerView.Adapter<GamesAdapter.GamesViewHol
     @Override
     public void onBindViewHolder(@NonNull final GamesViewHolder holder, int position) {
 
-        RequestQueue requestQueue = Volley.newRequestQueue(context);
-        ImageRequest request = new ImageRequest("http:"+games.get(position).getCover().getUrl(),
-                new Response.Listener<Bitmap>() {
-                    @Override
-                    public void onResponse(Bitmap bitmap) {
-                        holder.gameImageView.setImageBitmap(bitmap);
-                    }
-                }, 0, 0, null,
-                new Response.ErrorListener() {
-                    public void onErrorResponse(VolleyError error) {
-                        holder.gameImageView.setImageResource(R.drawable.ic_baseline_error_24px);
-                    }
-                });
-        requestQueue.add(request);
+        try {
+            RequestQueue requestQueue = Volley.newRequestQueue(context);
+            ImageRequest request = new ImageRequest("http:"+games.get(position).getCover().getUrl(),
+                    new Response.Listener<Bitmap>() {
+                        @Override
+                        public void onResponse(Bitmap bitmap) {
+                            holder.gameImageView.setImageBitmap(bitmap);
+                        }
+                    }, 0, 0, null,
+                    new Response.ErrorListener() {
+                        public void onErrorResponse(VolleyError error) {
+                            holder.gameImageView.setImageResource(R.drawable.ic_baseline_error_24px);
+                        }
+                    });
+            requestQueue.add(request);
 
-        holder.gameTextView.setText(games.get(position).getName());
-        holder.releaseDateTextView.setText(String.valueOf(games.get(position).getRelease_dates().get(0).getDate()));
 
-        Double rate = games.get(position).getTotalRating();
-        //float rateCount = (float) (rate*5/100);
-        holder.ratingBar.setRating(4);
+            holder.gameTextView.setText(games.get(position).getName());
+            holder.releaseDateTextView.setText(String.valueOf(games.get(position).getRelease_dates().get(0).getDate()));
+
+            Double rate = games.get(position).getTotalRating();
+            //float rateCount = (float) (rate*5/100);
+            holder.ratingBar.setRating(4);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
 
 
     }

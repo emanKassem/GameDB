@@ -36,4 +36,5 @@
     <string name="recommended_games">Recommended Games</string>
     <string name="developers">Developers</string>
     <string name="publisher">Publisher</string>
+    <string name="search_hint">Search..</string>
 </resources>

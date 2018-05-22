@@ -19,6 +19,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Arrays;
 import java.util.List;
@@ -30,6 +32,8 @@ import com.example.l.gamedb.model.Parameters;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static junit.framework.Assert.fail;
 
 public class GamesFragment extends Fragment{
 
@@ -55,14 +59,48 @@ public class GamesFragment extends Fragment{
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setDateFormat("M/d/yy hh:mm a");
         gson = gsonBuilder.create();
-        try {
-            games();
+        String argument = getArguments().getString("key");
+        if(argument.equals("games")) {
+            try {
+                games();
 
-        } catch (Exception e) {
-            e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        else{
+            try {
+                search(argument);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
         }
 
         return view;
+    }
+
+    private void search(String argument) {
+        Parameters parameters = new Parameters()
+                .addSearch(argument)
+                .addFields("*");
+        wrapper.search(APIWrapper.Endpoint.GAMES, parameters, new onSuccessCallback() {
+            @Override
+            public void onSuccess(JSONArray result) {
+                String resultString = result.toString();
+                games = Arrays.asList(gson.fromJson(resultString, Game[].class));
+                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+                gameRecyclerView.setLayoutManager(layoutManager);
+                GamesAdapter gamesAdapter = new GamesAdapter(getActivity(), games);
+                gameRecyclerView.setAdapter(gamesAdapter);
+                runLayoutAnimation(gameRecyclerView);
+            }
+
+            @Override
+            public void onError(VolleyError error) {
+
+            }
+        });
     }
 
     public void games() {
