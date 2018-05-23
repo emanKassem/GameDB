@@ -15,12 +15,12 @@ import android.view.animation.LayoutAnimationController;
 import com.android.volley.VolleyError;
 import com.example.l.gamedb.BuildConfig;
 import com.example.l.gamedb.R;
+import com.example.l.gamedb.model.Company;
+import com.example.l.gamedb.model.Theme;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.Arrays;
 import java.util.List;
@@ -40,9 +40,11 @@ public class GamesFragment extends Fragment{
     private APIWrapper wrapper;
     private Gson gson;
     List<Game> games;
+    List<Company> companies;
+    Theme theme;
 
     @BindView(R.id.games_recyclerview)
-    RecyclerView gameRecyclerView;
+    RecyclerView itemsRecyclerView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,24 +62,63 @@ public class GamesFragment extends Fragment{
         gsonBuilder.setDateFormat("M/d/yy hh:mm a");
         gson = gsonBuilder.create();
         String argument = getArguments().getString("key");
-        if(argument.equals("games")) {
-            try {
+        switch (argument){
+            case "games":
                 games();
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        else{
-            try {
+                break;
+            case "companies":
+                companies();
+                break;
+            case "action":
+                themes("1");
+                break;
+            default:
                 search(argument);
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-
         }
 
         return view;
+    }
+
+    private void themes(final String themes) {
+        Parameters parameters = new Parameters().addIds(themes);
+        wrapper.themes(parameters, new onSuccessCallback() {
+            @Override
+            public void onSuccess(JSONArray result) {
+                String resultString = result.toString();
+                theme = gson.fromJson(resultString, Theme.class);
+                int count = theme.getGames().size();
+                for(int i = 0; i<count; i++){
+
+                }
+            }
+
+            @Override
+            public void onError(VolleyError error) {
+
+            }
+        });
+
+    }
+
+    private void companies() {
+        Parameters parameters = new Parameters();
+        wrapper.companies(parameters, new onSuccessCallback() {
+            @Override
+            public void onSuccess(JSONArray result) {
+                String resultString = result.toString();
+                companies = Arrays.asList(gson.fromJson(resultString, Company[].class));
+                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+                itemsRecyclerView.setLayoutManager(layoutManager);
+                CompaniesAdapter companiesAdapter = new CompaniesAdapter(companies);
+                itemsRecyclerView.setAdapter(companiesAdapter);
+                runLayoutAnimation(itemsRecyclerView);
+            }
+
+            @Override
+            public void onError(VolleyError error) {
+
+            }
+        });
     }
 
     private void search(String argument) {
@@ -90,10 +131,10 @@ public class GamesFragment extends Fragment{
                 String resultString = result.toString();
                 games = Arrays.asList(gson.fromJson(resultString, Game[].class));
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-                gameRecyclerView.setLayoutManager(layoutManager);
+                itemsRecyclerView.setLayoutManager(layoutManager);
                 GamesAdapter gamesAdapter = new GamesAdapter(getActivity(), games);
-                gameRecyclerView.setAdapter(gamesAdapter);
-                runLayoutAnimation(gameRecyclerView);
+                itemsRecyclerView.setAdapter(gamesAdapter);
+                runLayoutAnimation(itemsRecyclerView);
             }
 
             @Override
@@ -111,10 +152,10 @@ public class GamesFragment extends Fragment{
                 String resultString = result.toString();
                 games = Arrays.asList(gson.fromJson(resultString, Game[].class));
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-                gameRecyclerView.setLayoutManager(layoutManager);
+                itemsRecyclerView.setLayoutManager(layoutManager);
                 GamesAdapter gamesAdapter = new GamesAdapter(getActivity(), games);
-                gameRecyclerView.setAdapter(gamesAdapter);
-                runLayoutAnimation(gameRecyclerView);
+                itemsRecyclerView.setAdapter(gamesAdapter);
+                runLayoutAnimation(itemsRecyclerView);
             }
 
             @Override
@@ -124,6 +165,26 @@ public class GamesFragment extends Fragment{
 
         });
     }
+
+    public Game games(String id) {
+        Parameters parameters = new Parameters().addIds(id);
+        final Game[] game = new Game[1];
+        wrapper.games(parameters, new onSuccessCallback() {
+            @Override
+            public void onSuccess(JSONArray result) {
+                String resultString = result.toString();
+                game[0] = gson.fromJson(resultString, Game.class);
+            }
+
+            @Override
+            public void onError(VolleyError error) {
+
+            }
+
+        });
+        return game[0];
+    }
+
 
     private void runLayoutAnimation(final RecyclerView recyclerView) {
         final Context context = recyclerView.getContext();

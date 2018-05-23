@@ -3,6 +3,7 @@ package com.example.l.gamedb.view;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -64,15 +65,15 @@ public class GamesAdapter extends RecyclerView.Adapter<GamesAdapter.GamesViewHol
             holder.releaseDateTextView.setText(String.valueOf(games.get(position).getRelease_dates().get(0).getDate()));
 
             Double rate = games.get(position).getTotalRating();
-            //float rateCount = (float) (rate*5/100);
-            holder.ratingBar.setRating(4);
+            if(rate != null) {
+                float rateCount = (float) (rate*5/100);
+                holder.ratingBar.setRating(rateCount);
+                holder.ratingBar.setVisibility(View.VISIBLE);
+            }
 
         }catch (Exception e){
             e.printStackTrace();
         }
-
-
-
     }
 
     @Override

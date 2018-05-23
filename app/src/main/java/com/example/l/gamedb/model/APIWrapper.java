@@ -188,7 +188,7 @@ public class APIWrapper {
     }
 
     /**
-     * Companies method returns a JSONArray containing the company information requested.
+     * Companies method returns a JSONArray containing the Company information requested.
      *
      * @param parameters      The arguments added to specify the result.
      * @param callback  Callback which gets activated as soon as the JSONArray is returned from the

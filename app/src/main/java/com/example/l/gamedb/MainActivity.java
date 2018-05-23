@@ -52,10 +52,6 @@ public class MainActivity extends AppCompatActivity
         fragmentTransaction.commit();
     }
 
-    public void changeFragment(Fragment fragment){
-
-    }
-
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -98,6 +94,13 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        if(id == R.id.companies)
+        {
+            changeFragment("companies");
+        }
+        if(id == R.id.action){
+            changeFragment("action");
+        }
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
