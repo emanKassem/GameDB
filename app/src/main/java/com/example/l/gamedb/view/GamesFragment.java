@@ -22,6 +22,7 @@ import com.google.gson.GsonBuilder;
 
 import org.json.JSONArray;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -41,7 +42,7 @@ public class GamesFragment extends Fragment{
     private Gson gson;
     List<Game> games;
     List<Company> companies;
-    Theme theme;
+    List<Theme> theme;
 
     @BindView(R.id.games_recyclerview)
     RecyclerView itemsRecyclerView;
@@ -85,11 +86,18 @@ public class GamesFragment extends Fragment{
             @Override
             public void onSuccess(JSONArray result) {
                 String resultString = result.toString();
-                theme = gson.fromJson(resultString, Theme.class);
-                int count = theme.getGames().size();
-                for(int i = 0; i<count; i++){
-
+                theme = Arrays.asList(gson.fromJson(resultString, Theme[].class));
+                int count = theme.get(0).getGames().size();
+                String ids = (theme.get(0).getGames().get(0)).toString();
+                for(int i = 1; i<20; i++){
+                    ids = ids+","+(theme.get(0).getGames().get(i)).toString();
                 }
+                games(ids);
+                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+                itemsRecyclerView.setLayoutManager(layoutManager);
+                GamesAdapter gamesAdapter = new GamesAdapter(getActivity(), games);
+                itemsRecyclerView.setAdapter(gamesAdapter);
+                runLayoutAnimation(itemsRecyclerView);
             }
 
             @Override
@@ -166,23 +174,22 @@ public class GamesFragment extends Fragment{
         });
     }
 
-    public Game games(String id) {
+    public void games(String id) {
         Parameters parameters = new Parameters().addIds(id);
-        final Game[] game = new Game[1];
         wrapper.games(parameters, new onSuccessCallback() {
             @Override
             public void onSuccess(JSONArray result) {
                 String resultString = result.toString();
-                game[0] = gson.fromJson(resultString, Game.class);
+                games = Arrays.asList(gson.fromJson(resultString, Game[].class));
+
             }
 
             @Override
             public void onError(VolleyError error) {
-
+                error.printStackTrace();
             }
 
         });
-        return game[0];
     }
 
 
