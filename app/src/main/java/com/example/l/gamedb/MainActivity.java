@@ -94,12 +94,40 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        if(id == R.id.companies)
-        {
-            changeFragment("companies");
-        }
-        if(id == R.id.action){
-            changeFragment("action");
+        switch (id){
+            case R.id.companies:
+                changeFragment("companies");
+                break;
+            case R.id.franchises:
+                changeFragment("franchises");
+                break;
+            case R.id.pages:
+                changeFragment("pages");
+                break;
+            case R.id.reviews:
+                changeFragment("reviews");
+                break;
+            case R.id.action:
+                changeFragment("action");
+                break;
+            case R.id.historical:
+                changeFragment("historical");
+                break;
+            case R.id.horror:
+                changeFragment("horror");
+                break;
+            case R.id.drama:
+                changeFragment("drama");
+                break;
+            case R.id.mystery:
+                changeFragment("mystery");
+                break;
+            case R.id.single_player:
+                changeFragment("singlePlayer");
+                break;
+            case R.id.multi_player:
+                changeFragment("multiPlayer");
+                break;
         }
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

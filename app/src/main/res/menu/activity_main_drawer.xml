@@ -53,7 +53,7 @@
                 android:icon="@drawable/ic_single_user_24px"
                 android:title="@string/single_player" />
             <item
-                android:id="@+id/multipe_player"
+                android:id="@+id/multi_player"
                 android:icon="@drawable/ic_multi_users_24px"
                 android:title="@string/multiplayers" />
         </menu>

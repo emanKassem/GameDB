@@ -73,11 +73,53 @@ public class GamesFragment extends Fragment{
             case "action":
                 themes("1");
                 break;
+            case "historical":
+                themes("22");
+                break;
+            case "horror":
+                themes("19");
+                break;
+            case "drama":
+                themes("28");
+                break;
+            case "mystery":
+                themes("43");
+                break;
+            case "singlePlayer":
+                modes("1");
+                break;
+            case "multiPlayer":
+                modes("2");
+                break;
             default:
                 search(argument);
         }
 
         return view;
+    }
+
+    private void modes(String mode) {
+        Parameters parameters = new Parameters().addIds(mode);
+        wrapper.gameModes(parameters, new onSuccessCallback() {
+            @Override
+            public void onSuccess(JSONArray result) {
+                String resultString = result.toString();
+                theme = Arrays.asList(gson.fromJson(resultString, Theme[].class));
+                int count = theme.get(0).getGames().size();
+                if(count>20)
+                    count = 20;
+                String ids = (theme.get(0).getGames().get(0)).toString();
+                for(int i = 1; i<count; i++){
+                    ids = ids+","+(theme.get(0).getGames().get(i)).toString();
+                }
+                games(ids);
+            }
+
+            @Override
+            public void onError(VolleyError error) {
+
+            }
+        });
     }
 
     private void themes(final String themes) {
@@ -88,16 +130,13 @@ public class GamesFragment extends Fragment{
                 String resultString = result.toString();
                 theme = Arrays.asList(gson.fromJson(resultString, Theme[].class));
                 int count = theme.get(0).getGames().size();
+                if(count>20)
+                    count = 20;
                 String ids = (theme.get(0).getGames().get(0)).toString();
-                for(int i = 1; i<20; i++){
+                for(int i = 1; i<count; i++){
                     ids = ids+","+(theme.get(0).getGames().get(i)).toString();
                 }
                 games(ids);
-                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-                itemsRecyclerView.setLayoutManager(layoutManager);
-                GamesAdapter gamesAdapter = new GamesAdapter(getActivity(), games);
-                itemsRecyclerView.setAdapter(gamesAdapter);
-                runLayoutAnimation(itemsRecyclerView);
             }
 
             @Override
@@ -181,6 +220,11 @@ public class GamesFragment extends Fragment{
             public void onSuccess(JSONArray result) {
                 String resultString = result.toString();
                 games = Arrays.asList(gson.fromJson(resultString, Game[].class));
+                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+                itemsRecyclerView.setLayoutManager(layoutManager);
+                GamesAdapter gamesAdapter = new GamesAdapter(getActivity(), games);
+                itemsRecyclerView.setAdapter(gamesAdapter);
+                runLayoutAnimation(itemsRecyclerView);
 
             }
 
