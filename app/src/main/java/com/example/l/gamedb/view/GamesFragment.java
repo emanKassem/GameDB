@@ -57,7 +57,7 @@ public class GamesFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.games_fragment, container, false);
         ButterKnife.bind(this, view);
-        String key = BuildConfig.API_KEY;;
+        String key = BuildConfig.API_KEY;
         wrapper = new APIWrapper(getActivity(), key);
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setDateFormat("M/d/yy hh:mm a");
@@ -156,7 +156,7 @@ public class GamesFragment extends Fragment{
                 companies = Arrays.asList(gson.fromJson(resultString, Company[].class));
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
                 itemsRecyclerView.setLayoutManager(layoutManager);
-                CompaniesAdapter companiesAdapter = new CompaniesAdapter(companies);
+                CompaniesAdapter companiesAdapter = new CompaniesAdapter(companies, getActivity());
                 itemsRecyclerView.setAdapter(companiesAdapter);
                 runLayoutAnimation(itemsRecyclerView);
             }
