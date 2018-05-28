@@ -1,6 +1,8 @@
 package com.example.l.gamedb.view;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -55,9 +57,21 @@ public class CompaniesAdapter extends RecyclerView.Adapter<CompaniesAdapter.Comp
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CompaniesViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final CompaniesViewHolder holder, int position) {
         holder.companyNameTextView.setText(companies.get(position).getName());
-        games(companies.get(position).getDeveloped(), holder.companyGamesRecyclerView);
+        holder.expandImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Drawable src = holder.expandImageView.getDrawable();
+
+            }
+        });
+        if(companies.get(position).getDeveloped() != null) {
+            games(companies.get(position).getDeveloped(), holder.companyGamesRecyclerView);
+        }
+        else {
+            games(companies.get(position).getPublished(), holder.companyGamesRecyclerView);
+        }
 
     }
 
@@ -74,7 +88,7 @@ public class CompaniesAdapter extends RecyclerView.Adapter<CompaniesAdapter.Comp
                 games = Arrays.asList(gson.fromJson(resultString, Game[].class));
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
                 companyGamesRecyclerView.setLayoutManager(layoutManager);
-                CompanyGamesAdapter companyGamesAdapter = new CompanyGamesAdapter();
+                CompanyGamesAdapter companyGamesAdapter = new CompanyGamesAdapter(games, context);
                 companyGamesRecyclerView.setAdapter(companyGamesAdapter);
 
             }
