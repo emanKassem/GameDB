@@ -45,21 +45,25 @@ public class CompanyGamesAdapter extends RecyclerView.Adapter<CompanyGamesAdapte
 
     @Override
     public void onBindViewHolder(@NonNull final CompanyGamesHolder holder, int position) {
-        holder.companyGameName.setText(games.get(position).getName());
-        RequestQueue requestQueue = Volley.newRequestQueue(context);
-        ImageRequest request = new ImageRequest("http:"+games.get(position).getCover().getUrl(),
-                new Response.Listener<Bitmap>() {
-                    @Override
-                    public void onResponse(Bitmap bitmap) {
-                        holder.companyGameImageView.setImageBitmap(bitmap);
-                    }
-                }, 0, 0, null,
-                new Response.ErrorListener() {
-                    public void onErrorResponse(VolleyError error) {
-                        holder.companyGameImageView.setImageResource(R.drawable.ic_baseline_error_24px);
-                    }
-                });
-        requestQueue.add(request);
+        try {
+            holder.companyGameName.setText(games.get(position).getName());
+            RequestQueue requestQueue = Volley.newRequestQueue(context);
+            ImageRequest request = new ImageRequest("http:" + games.get(position).getCover().getUrl(),
+                    new Response.Listener<Bitmap>() {
+                        @Override
+                        public void onResponse(Bitmap bitmap) {
+                            holder.companyGameImageView.setImageBitmap(bitmap);
+                        }
+                    }, 0, 0, null,
+                    new Response.ErrorListener() {
+                        public void onErrorResponse(VolleyError error) {
+                            holder.companyGameImageView.setImageResource(R.drawable.ic_baseline_error_24px);
+                        }
+                    });
+            requestQueue.add(request);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -69,7 +73,7 @@ public class CompanyGamesAdapter extends RecyclerView.Adapter<CompanyGamesAdapte
 
     public class CompanyGamesHolder extends RecyclerView.ViewHolder{
 
-        @BindView(R.id.company_game_imageView)
+        @BindView(R.id.CompanyGameImageView)
         ImageView companyGameImageView;
         @BindView(R.id.company_game_textView)
         TextView companyGameName;

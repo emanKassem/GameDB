@@ -1,7 +1,6 @@
 package com.example.l.gamedb.view;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
@@ -31,16 +30,16 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CompaniesAdapter extends RecyclerView.Adapter<CompaniesAdapter.CompaniesViewHolder>{
+public class CompaniesAdapter extends RecyclerView.Adapter<CompaniesAdapter.CompaniesViewHolder> {
 
     List<Company> companies;
     String key = BuildConfig.API_KEY;
-    private APIWrapper wrapper;
-    private Gson gson;
     List<Game> games;
     Context context;
+    private APIWrapper wrapper;
+    private Gson gson;
 
-    public CompaniesAdapter(List<Company> companies, Context context){
+    public CompaniesAdapter(List<Company> companies, Context context) {
         this.companies = companies;
         this.context = context;
         wrapper = new APIWrapper(context, key);
@@ -48,16 +47,17 @@ public class CompaniesAdapter extends RecyclerView.Adapter<CompaniesAdapter.Comp
         gsonBuilder.setDateFormat("M/d/yy hh:mm a");
         gson = gsonBuilder.create();
     }
+
     @NonNull
     @Override
     public CompaniesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.companies_recyclerview_item, parent,false);
+                .inflate(R.layout.companies_recyclerview_item, parent, false);
         return new CompaniesViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final CompaniesViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final CompaniesViewHolder holder, final int position) {
         holder.companyNameTextView.setText(companies.get(position).getName());
         holder.expandImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,19 +66,36 @@ public class CompaniesAdapter extends RecyclerView.Adapter<CompaniesAdapter.Comp
 
             }
         });
-        if(companies.get(position).getDeveloped() != null) {
-            games(companies.get(position).getDeveloped(), holder.companyGamesRecyclerView);
-        }
-        else {
-            games(companies.get(position).getPublished(), holder.companyGamesRecyclerView);
-        }
+        holder.expandImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                holder.expandImageView.setVisibility(View.INVISIBLE);
+                holder.expandUpImageView.setVisibility(View.VISIBLE);
+                holder.companyGamesRecyclerView.setVisibility(View.VISIBLE);
+                if (companies.get(position).getDeveloped() != null) {
+                    games(companies.get(position).getDeveloped(), holder.companyGamesRecyclerView);
+                } else {
+                    games(companies.get(position).getPublished(), holder.companyGamesRecyclerView);
+                }
 
+            }
+        });
+        holder.expandUpImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                holder.expandUpImageView.setVisibility(View.INVISIBLE);
+                holder.expandImageView.setVisibility(View.VISIBLE);
+                holder.companyGamesRecyclerView.setVisibility(View.GONE);
+
+            }
+        });
     }
+
 
     private void games(List<Integer> developed, final RecyclerView companyGamesRecyclerView) {
         String ids = developed.get(0).toString();
-        for (int i = 1; i<developed.size(); i++){
-            ids = ids + ","+developed.get(i);
+        for (int i = 1; i < developed.size(); i++) {
+            ids = ids + "," + developed.get(i);
         }
         Parameters parameters = new Parameters().addIds(ids);
         wrapper.games(parameters, new onSuccessCallback() {
@@ -106,7 +123,7 @@ public class CompaniesAdapter extends RecyclerView.Adapter<CompaniesAdapter.Comp
         return companies.size();
     }
 
-    public class CompaniesViewHolder extends RecyclerView.ViewHolder{
+    public class CompaniesViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.company_name_textView)
         TextView companyNameTextView;
@@ -114,6 +131,9 @@ public class CompaniesAdapter extends RecyclerView.Adapter<CompaniesAdapter.Comp
         RecyclerView companyGamesRecyclerView;
         @BindView(R.id.expandImageView)
         ImageView expandImageView;
+        @BindView(R.id.expandUpImageView)
+        ImageView expandUpImageView;
+
         public CompaniesViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);

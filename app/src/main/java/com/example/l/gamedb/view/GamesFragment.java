@@ -16,6 +16,8 @@ import com.android.volley.VolleyError;
 import com.example.l.gamedb.BuildConfig;
 import com.example.l.gamedb.R;
 import com.example.l.gamedb.model.Company;
+import com.example.l.gamedb.model.Franchise;
+import com.example.l.gamedb.model.Page;
 import com.example.l.gamedb.model.Theme;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -43,6 +45,8 @@ public class GamesFragment extends Fragment{
     List<Game> games;
     List<Company> companies;
     List<Theme> theme;
+    List<Franchise> franchises;
+    List<Page> pages;
 
     @BindView(R.id.games_recyclerview)
     RecyclerView itemsRecyclerView;
@@ -69,6 +73,12 @@ public class GamesFragment extends Fragment{
                 break;
             case "companies":
                 companies();
+                break;
+            case "franchises":
+                franchises();
+                break;
+            case "pages":
+                pages();
                 break;
             case "action":
                 themes("1");
@@ -159,6 +169,52 @@ public class GamesFragment extends Fragment{
                 CompaniesAdapter companiesAdapter = new CompaniesAdapter(companies, getActivity());
                 itemsRecyclerView.setAdapter(companiesAdapter);
                 runLayoutAnimation(itemsRecyclerView);
+            }
+
+            @Override
+            public void onError(VolleyError error) {
+
+            }
+        });
+    }
+
+    private void franchises(){
+        Parameters parameters = new Parameters();
+        wrapper.franchises(parameters, new onSuccessCallback() {
+            @Override
+            public void onSuccess(JSONArray result) {
+                String resultString = result.toString();
+                franchises = Arrays.asList(gson.fromJson(resultString, Franchise[].class));
+                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+                itemsRecyclerView.setLayoutManager(layoutManager);
+                FranchisesAdapter franchisesAdapter = new FranchisesAdapter(franchises, getActivity());
+                itemsRecyclerView.setAdapter(franchisesAdapter);
+                runLayoutAnimation(itemsRecyclerView);
+
+
+            }
+
+            @Override
+            public void onError(VolleyError error) {
+
+            }
+        });
+
+    }
+
+    private void pages(){
+        Parameters parameters = new Parameters();
+        wrapper.pages(parameters, new onSuccessCallback() {
+            @Override
+            public void onSuccess(JSONArray result) {
+                String resultString = result.toString();
+                pages = Arrays.asList(gson.fromJson(resultString, Page[].class));
+                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+                itemsRecyclerView.setLayoutManager(layoutManager);
+                PagesAdapter pagesAdapter = new PagesAdapter(pages, getActivity());
+                itemsRecyclerView.setAdapter(pagesAdapter);
+                runLayoutAnimation(itemsRecyclerView);
+
             }
 
             @Override

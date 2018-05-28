@@ -251,7 +251,7 @@ public class APIWrapper {
     }
 
     /**
-     * Pages method returns a JSONArray containing the page information requested.
+     * Pages method returns a JSONArray containing the Page information requested.
      *
      * @param parameters      The arguments added to specify the result.
      * @param callback  Callback which gets activated as soon as the JSONArray is returned from the
