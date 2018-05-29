@@ -27,7 +27,7 @@
     <string name="page_name">Page Name</string>
     <string name="game_name">Game name</string>
     <string name="release_date">Release Date</string>
-    <string name="reviewer_name">Reviewer Name</string>
+    <string name="reviewer_name">Reviewed by: </string>
     <string name="description_conclusion">Description conclusion</string>
     <string name="description_content">Description content</string>
     <string name="description">Description</string>

@@ -10,7 +10,7 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/page_game_imageview"
+            android:id="@+id/review_game_imageview"
             android:layout_width="128dp"
             android:layout_height="133dp"
             android:layout_marginStart="16dp"
@@ -20,27 +20,28 @@
             app:srcCompat="@mipmap/ic_launcher" />
 
         <TextView
-            android:id="@+id/page_game_name_textView"
+            android:id="@+id/review_game_name_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="36dp"
             android:text="@string/game_name"
+            android:textColor="@android:color/black"
             android:textSize="20sp"
-            app:layout_constraintStart_toEndOf="@+id/page_game_imageview"
+            app:layout_constraintStart_toEndOf="@+id/review_game_imageview"
             app:layout_constraintTop_toTopOf="parent" />
 
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/reviewer_name_textview"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:text="@string/reviewer_name"
-            android:textSize="20sp"
-            app:layout_constraintStart_toEndOf="@+id/page_game_imageview"
-            app:layout_constraintTop_toBottomOf="@+id/page_game_name_textView" />
+            android:textSize="15sp"
+            app:layout_constraintStart_toEndOf="@+id/review_game_imageview"
+            app:layout_constraintTop_toBottomOf="@+id/review_game_name_textView" />
 
 
         <TextView
@@ -51,8 +52,8 @@
             android:layout_marginTop="16dp"
             android:text="@string/description"
             android:textSize="15sp"
-            app:layout_constraintStart_toStartOf="@+id/page_game_imageview"
-            app:layout_constraintTop_toBottomOf="@+id/page_game_imageview" />
+            app:layout_constraintStart_toStartOf="@+id/review_game_imageview"
+            app:layout_constraintTop_toBottomOf="@+id/review_game_imageview" />
 
         <TextView
             android:id="@+id/review_content_textView"
@@ -61,17 +62,8 @@
             android:layout_marginStart="8dp"
             android:text="@string/description_content"
             android:textSize="15sp"
-            app:layout_constraintStart_toStartOf="@id/page_game_imageview"
+            app:layout_constraintStart_toStartOf="@id/review_game_imageview"
             app:layout_constraintTop_toBottomOf="@+id/review_introduction_textView" />
-        <TextView
-            android:id="@+id/review_conclusion_textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="@string/description_conclusion"
-            android:textSize="15sp"
-            app:layout_constraintStart_toStartOf="@id/page_game_imageview"
-            app:layout_constraintTop_toBottomOf="@+id/review_content_textView" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/floatingActionButton"
@@ -85,5 +77,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@color/colorAccent" />
 
+        <RatingBar
+            android:id="@+id/ratingBar2"
+            android:layout_width="194dp"
+            android:layout_height="29dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:progressTint="@color/colorAccent"
+            style="?android:attr/ratingBarStyleSmall"
+            app:layout_constraintStart_toEndOf="@+id/review_game_imageview"
+            app:layout_constraintTop_toBottomOf="@+id/reviewer_name_textview" />
+
     </android.support.constraint.ConstraintLayout>
+
 </android.support.v7.widget.CardView>

@@ -18,6 +18,7 @@ import com.example.l.gamedb.R;
 import com.example.l.gamedb.model.Company;
 import com.example.l.gamedb.model.Franchise;
 import com.example.l.gamedb.model.Page;
+import com.example.l.gamedb.model.Review;
 import com.example.l.gamedb.model.Theme;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -47,6 +48,7 @@ public class GamesFragment extends Fragment{
     List<Theme> theme;
     List<Franchise> franchises;
     List<Page> pages;
+    List<Review> reviews;
 
     @BindView(R.id.games_recyclerview)
     RecyclerView itemsRecyclerView;
@@ -79,6 +81,9 @@ public class GamesFragment extends Fragment{
                 break;
             case "pages":
                 pages();
+                break;
+            case "reviews":
+                reviews();
                 break;
             case "action":
                 themes("1");
@@ -222,6 +227,28 @@ public class GamesFragment extends Fragment{
 
             }
         });
+    }
+
+    private void reviews(){
+        Parameters parameters = new Parameters();
+        wrapper.reviews(parameters, new onSuccessCallback() {
+            @Override
+            public void onSuccess(JSONArray result) {
+                String resultString = result.toString();
+                reviews = Arrays.asList(gson.fromJson(resultString, Review[].class));
+                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+                itemsRecyclerView.setLayoutManager(layoutManager);
+                ReviewsAdapter reviewsAdapter = new ReviewsAdapter(reviews, getActivity());
+                itemsRecyclerView.setAdapter(reviewsAdapter);
+                runLayoutAnimation(itemsRecyclerView);
+            }
+
+            @Override
+            public void onError(VolleyError error) {
+
+            }
+        });
+
     }
 
     private void search(String argument) {
