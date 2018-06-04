@@ -7,11 +7,13 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -70,9 +72,9 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewsV
         try {
             holder.reviewerNameTextView.setText(reviews.get(position).getUserName());
             holder.reviewContentTextView.setText(reviews.get(position).getContent());
-            holder.reviewIntroductionTextView.setText(reviews.get(position).getTitle());
             games(reviews.get(position).getGame(), holder.reviewGameImageView, holder.reviewGameNameTextView);
-            holder.floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            holder.reviewRatingBar.setRating((reviews.get(position).getReviewRating())/2);
+            holder.reviewCardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     try {
@@ -99,8 +101,8 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewsV
             public void onSuccess(JSONArray result) {
                 String resultString = result.toString();
                 games = Arrays.asList(gson.fromJson(resultString, Game[].class));
-                reviewGameNameTextView.setText(games.get(0).getName());
                 try {
+                    reviewGameNameTextView.setText(games.get(0).getName());
                     RequestQueue requestQueue = Volley.newRequestQueue(context);
                     ImageRequest request = new ImageRequest("http:"+games.get(0).getCover().getUrl(),
                             new Response.Listener<Bitmap>() {
@@ -141,12 +143,12 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewsV
         TextView reviewGameNameTextView;
         @BindView(R.id.reviewer_name_textview)
         TextView reviewerNameTextView;
-        @BindView(R.id.review_introduction_textView)
-        TextView reviewIntroductionTextView;
         @BindView(R.id.review_content_textView)
-        TextView reviewContentTextView;
-        @BindView(R.id.floatingActionButton)
-        FloatingActionButton floatingActionButton;
+        ExpandableTextView reviewContentTextView;
+        @BindView(R.id.review_cardView)
+        CardView reviewCardView;
+        @BindView(R.id.reviewRatingBar)
+        RatingBar reviewRatingBar;
         public ReviewsViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);

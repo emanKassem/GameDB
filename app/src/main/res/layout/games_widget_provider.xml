@@ -1,0 +1,18 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="#09C"
+    android:padding="@dimen/widget_margin"
+    android:orientation="vertical"
+    android:id="@+id/parentView">
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="#f0f0f0"
+        tools:listitem="@layout/list_item_widget"
+        android:dividerHeight="1dp"/>
+
+</LinearLayout>

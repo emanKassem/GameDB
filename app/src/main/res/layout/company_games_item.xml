@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    android:layout_margin="3dp">
+    android:layout_margin="3dp"
+    android:id="@+id/parentview">
 
     <ImageView
         android:id="@+id/CompanyGameImageView"
@@ -15,7 +16,8 @@
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/ic_launcher" />
+        app:srcCompat="@mipmap/ic_launcher"
+        android:transitionName="@string/profile"/>
 
     <TextView
         android:id="@+id/company_game_textView"

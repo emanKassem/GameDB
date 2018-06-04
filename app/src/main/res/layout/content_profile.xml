@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<ScrollView android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:showIn="@layout/activity_game_profile"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    xmlns:tools="http://schemas.android.com/tools"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:background="#f1f5f8"
+    tools:showIn="@layout/activity_game_profile">
+<android.support.constraint.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/summery_textView"
@@ -14,11 +18,13 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="@string/summery"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <com.example.l.gamedb.view.ExpandableTextView
         android:id="@+id/summery_content_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -28,56 +34,6 @@
         android:textSize="15sp"
         app:layout_constraintStart_toStartOf="@+id/summery_textView"
         app:layout_constraintTop_toBottomOf="@+id/summery_textView" />
-
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/summery_content_textView">
-
-        <ImageView
-            android:id="@+id/star1_imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            app:srcCompat="@drawable/ic_baseline_star_24px"
-            tools:layout_marginRight="3dp" />
-
-        <ImageView
-            android:id="@+id/star2_imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            app:srcCompat="@drawable/ic_baseline_star_24px"
-            tools:layout_marginRight="3dp" />
-
-        <ImageView
-            android:id="@+id/star3_imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            app:srcCompat="@drawable/ic_baseline_star_24px"
-            tools:layout_marginRight="3dp" />
-
-        <ImageView
-            android:id="@+id/star4_imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            app:srcCompat="@drawable/ic_baseline_star_24px"
-            tools:layout_marginRight="3dp" />
-
-        <ImageView
-            android:id="@+id/star5_imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            app:srcCompat="@drawable/ic_baseline_star_24px" />
-    </LinearLayout>
 
     <TextView
         android:id="@+id/visit_link_textView"
@@ -95,13 +51,12 @@
         android:id="@+id/picker"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         app:dsv_orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/visit_link_textView" />
+        app:layout_constraintTop_toBottomOf="@+id/visit_link_textView"
+        android:elevation="5dp"/>
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -124,14 +79,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/publisher"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
                 android:textSize="20sp" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/publisher_recyclerview"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:visibility="gone" />
+                android:layout_height="wrap_content"/>
         </LinearLayout>
 
         <LinearLayout
@@ -144,60 +99,42 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/developers"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
                 android:textSize="20sp" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/developers_recyclerview"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:visibility="gone" />
+                android:layout_height="wrap_content"/>
         </LinearLayout>
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/recommended_games_textView"
-        android:layout_width="wrap_content"
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/recommended_games"
-        android:textSize="20sp"
+        android:layout_margin="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recommended_games_recyclerView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="@+id/recommended_games_textView"
-        app:layout_constraintTop_toBottomOf="@+id/recommended_games_textView" />
-
-    <TextView
-        android:id="@+id/games_modes_textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="Game modes: "
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recommended_games_recyclerView" />
-
-    <TextView
-        android:id="@+id/games_modes_content_textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:textSize="20sp"
-        android:textColor="@color/colorAccent"
-        android:text="Game mode"
-        app:layout_constraintStart_toEndOf="@+id/games_modes_textView"
-        app:layout_constraintTop_toBottomOf="@+id/recommended_games_recyclerView" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        android:elevation="5dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+        <TextView
+            android:id="@+id/recommended_games_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:text="@string/recommended_games"
+            android:textSize="20sp"/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recommended_games_recyclerView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"/>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/shareFloatingActionButton"
@@ -211,5 +148,19 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:srcCompat="@color/colorAccent"/>
 
+    <RatingBar
+        android:id="@+id/GameRatingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:progressTint="@color/colorAccent"
+        android:isIndicator="true"
+        style="?android:attr/ratingBarStyle"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/summery_content_textView" />
+
 
 </android.support.constraint.ConstraintLayout>
+</ScrollView>

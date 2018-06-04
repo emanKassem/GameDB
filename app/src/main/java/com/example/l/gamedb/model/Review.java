@@ -13,7 +13,7 @@ public class Review {
     private String userName;
     @SerializedName("review_rating")
     @Expose
-    private String reviewRating;
+    private float reviewRating;
     @SerializedName("url")
     @Expose
     private String url;
@@ -35,11 +35,11 @@ public class Review {
         this.userName = userName;
     }
 
-    public String getReviewRating() {
+    public float getReviewRating() {
         return reviewRating;
     }
 
-    public void setReviewRating(String reviewRating) {
+    public void setReviewRating(float reviewRating) {
         this.reviewRating = reviewRating;
     }
 

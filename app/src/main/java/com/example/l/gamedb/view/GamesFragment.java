@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,12 +21,15 @@ import com.example.l.gamedb.model.Franchise;
 import com.example.l.gamedb.model.Page;
 import com.example.l.gamedb.model.Review;
 import com.example.l.gamedb.model.Theme;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import org.json.JSONArray;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -37,7 +41,6 @@ import com.example.l.gamedb.model.Parameters;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static junit.framework.Assert.fail;
 
 public class GamesFragment extends Fragment{
 
@@ -52,6 +55,9 @@ public class GamesFragment extends Fragment{
 
     @BindView(R.id.games_recyclerview)
     RecyclerView itemsRecyclerView;
+    @BindView(R.id.adView)
+    AdView mAdView;
+    InterstitialAd mInterstitialAd;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -63,15 +69,38 @@ public class GamesFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.games_fragment, container, false);
         ButterKnife.bind(this, view);
+        String admobKey = BuildConfig.ADMOB_KEY;
         String key = BuildConfig.API_KEY;
         wrapper = new APIWrapper(getActivity(), key);
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setDateFormat("M/d/yy hh:mm a");
         gson = gsonBuilder.create();
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+        mInterstitialAd = new InterstitialAd(getActivity());
+        mInterstitialAd.setAdUnitId(admobKey);
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+        mInterstitialAd.setAdListener(new AdListener(){
+            @Override
+            public void onAdClosed() {
+                super.onAdClosed();
+                getActivity().finish();
+            }
+        });
+        mAdView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mInterstitialAd.isLoaded()) {
+                    mInterstitialAd.show();
+                } else {
+                    Log.d("TAG", "The interstitial wasn't loaded yet.");
+                }
+            }
+        });
         String argument = getArguments().getString("key");
         switch (argument){
             case "games":
-                games();
+                themes("1");
                 break;
             case "companies":
                 companies();
@@ -95,7 +124,7 @@ public class GamesFragment extends Fragment{
                 themes("19");
                 break;
             case "drama":
-                themes("28");
+                themes("31");
                 break;
             case "mystery":
                 themes("43");
@@ -274,28 +303,6 @@ public class GamesFragment extends Fragment{
         });
     }
 
-    public void games() {
-        Parameters parameters = new Parameters();
-        wrapper.games(parameters, new onSuccessCallback() {
-            @Override
-            public void onSuccess(JSONArray result) {
-                String resultString = result.toString();
-                games = Arrays.asList(gson.fromJson(resultString, Game[].class));
-                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-                itemsRecyclerView.setLayoutManager(layoutManager);
-                GamesAdapter gamesAdapter = new GamesAdapter(getActivity(), games);
-                itemsRecyclerView.setAdapter(gamesAdapter);
-                runLayoutAnimation(itemsRecyclerView);
-            }
-
-            @Override
-            public void onError(VolleyError error) {
-
-            }
-
-        });
-    }
-
     public void games(String id) {
         Parameters parameters = new Parameters().addIds(id);
         wrapper.games(parameters, new onSuccessCallback() {
@@ -318,6 +325,11 @@ public class GamesFragment extends Fragment{
 
         });
     }
+
+    public void showInerstitial(){
+
+    }
+
 
 
     private void runLayoutAnimation(final RecyclerView recyclerView) {

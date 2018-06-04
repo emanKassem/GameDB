@@ -1,8 +1,12 @@
 package com.example.l.gamedb.view;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,9 +27,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * Created by LENOVO on 27/05/2018.
- */
 
 public class CompanyGamesAdapter extends RecyclerView.Adapter<CompanyGamesAdapter.CompanyGamesHolder>{
 
@@ -44,7 +45,7 @@ public class CompanyGamesAdapter extends RecyclerView.Adapter<CompanyGamesAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final CompanyGamesHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final CompanyGamesHolder holder, final int position) {
         try {
             holder.companyGameName.setText(games.get(position).getName());
             RequestQueue requestQueue = Volley.newRequestQueue(context);
@@ -64,6 +65,16 @@ public class CompanyGamesAdapter extends RecyclerView.Adapter<CompanyGamesAdapte
         }catch (Exception e){
             e.printStackTrace();
         }
+        holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, GameProfileActivity.class);
+                intent.putExtra("id", games.get(position).getId().toString());
+                ActivityOptionsCompat options = ActivityOptionsCompat.
+                        makeSceneTransitionAnimation((Activity) context, holder.companyGameImageView, "profile");
+                context.startActivity(intent, options.toBundle());
+            }
+        });
     }
 
     @Override
@@ -77,6 +88,8 @@ public class CompanyGamesAdapter extends RecyclerView.Adapter<CompanyGamesAdapte
         ImageView companyGameImageView;
         @BindView(R.id.company_game_textView)
         TextView companyGameName;
+        @BindView(R.id.parentview)
+        ConstraintLayout constraintLayout;
         public CompanyGamesHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);

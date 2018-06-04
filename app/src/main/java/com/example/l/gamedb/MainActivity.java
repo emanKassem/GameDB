@@ -1,8 +1,9 @@
 package com.example.l.gamedb;
 
-import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,9 +14,11 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
+import com.example.l.gamedb.data.GameContract;
+import com.example.l.gamedb.view.FavoriteFragment;
 import com.example.l.gamedb.view.GamesFragment;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, SearchView.OnQueryTextListener {
@@ -35,6 +38,7 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
 
         changeFragment("games");
 
@@ -52,6 +56,34 @@ public class MainActivity extends AppCompatActivity
         fragmentTransaction.commit();
     }
 
+    public class FavoriteQueryTask extends AsyncTask<Void, Void, Cursor> {
+
+        @Override
+        protected Cursor doInBackground(Void... voids) {
+            try {
+                return getContentResolver().query(GameContract.GameEntry.CONTENT_URI,
+                        null,
+                        null,
+                        null,
+                        null);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+        @Override
+        protected void onPostExecute(Cursor cursor) {
+            if(cursor != null) {
+                FavoriteFragment favoriteFragment = FavoriteFragment.createYourFragmentWithCursor(cursor);
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.content_framelayout, favoriteFragment, "tag");
+                fragmentTransaction.commit();
+            }
+        }
+    }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -61,6 +93,7 @@ public class MainActivity extends AppCompatActivity
             super.onBackPressed();
         }
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -82,8 +115,8 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.action_favorites) {
+            new FavoriteQueryTask().execute();
         }
 
         return super.onOptionsItemSelected(item);

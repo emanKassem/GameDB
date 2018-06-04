@@ -1,8 +1,11 @@
 package com.example.l.gamedb.view;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -42,11 +45,13 @@ public class GamesAdapter extends RecyclerView.Adapter<GamesAdapter.GamesViewHol
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final GamesViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final GamesViewHolder holder, final int position) {
 
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(context);
-            ImageRequest request = new ImageRequest("http:"+games.get(position).getCover().getUrl(),
+            String cover = "http:"+games.get(position).getCover().getUrl();
+            String largeCover = cover.replaceAll("t_thumb", "t_logo_med");
+            ImageRequest request = new ImageRequest(largeCover,
                     new Response.Listener<Bitmap>() {
                         @Override
                         public void onResponse(Bitmap bitmap) {
@@ -71,8 +76,18 @@ public class GamesAdapter extends RecyclerView.Adapter<GamesAdapter.GamesViewHol
                 holder.ratingBar.setVisibility(View.VISIBLE);
             }
 
+            holder.gameCardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, GameProfileActivity.class);
+                    intent.putExtra("id", games.get(position).getId().toString());
+                    ActivityOptionsCompat options = ActivityOptionsCompat.
+                            makeSceneTransitionAnimation((Activity) context, holder.gameImageView, "profile");
+                    context.startActivity(intent, options.toBundle());
+                }
+            });
+
         }catch (Exception e){
-            e.printStackTrace();
         }
     }
 
@@ -91,6 +106,8 @@ public class GamesAdapter extends RecyclerView.Adapter<GamesAdapter.GamesViewHol
         TextView releaseDateTextView;
         @BindView(R.id.ratingBar)
         RatingBar ratingBar;
+        @BindView(R.id.gameCardView)
+        CardView gameCardView;
         public GamesViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
