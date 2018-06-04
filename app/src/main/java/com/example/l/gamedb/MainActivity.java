@@ -3,9 +3,14 @@ package com.example.l.gamedb;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.database.Cursor;
-import android.os.AsyncTask;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.LoaderManager.LoaderCallbacks;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -21,7 +26,7 @@ import com.example.l.gamedb.view.GamesFragment;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, SearchView.OnQueryTextListener {
+        implements NavigationView.OnNavigationItemSelectedListener, SearchView.OnQueryTextListener, LoaderCallbacks{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,35 +60,7 @@ public class MainActivity extends AppCompatActivity
         fragmentTransaction.replace(R.id.content_framelayout, gamesFragment, "tag");
         fragmentTransaction.commit();
     }
-
-    public class FavoriteQueryTask extends AsyncTask<Void, Void, Cursor> {
-
-        @Override
-        protected Cursor doInBackground(Void... voids) {
-            try {
-                return getContentResolver().query(GameContract.GameEntry.CONTENT_URI,
-                        null,
-                        null,
-                        null,
-                        null);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-        @Override
-        protected void onPostExecute(Cursor cursor) {
-            if(cursor != null) {
-                FavoriteFragment favoriteFragment = FavoriteFragment.createYourFragmentWithCursor(cursor);
-                FragmentManager fragmentManager = getFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.content_framelayout, favoriteFragment, "tag");
-                fragmentTransaction.commit();
-            }
-        }
-    }
-
+    
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -116,7 +93,7 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_favorites) {
-            new FavoriteQueryTask().execute();
+            getSupportLoaderManager().initLoader(1, null, this);
         }
 
         return super.onOptionsItemSelected(item);
@@ -176,5 +153,29 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onQueryTextChange(String newText) {
         return false;
+    }
+
+    @NonNull
+    @Override
+    public android.support.v4.content.Loader onCreateLoader(int id, @Nullable Bundle args) {
+        Uri CONTENT_URI = GameContract.GameEntry.CONTENT_URI;
+        CursorLoader cursorLoader = new CursorLoader(this, CONTENT_URI, null, null, null, null);
+        return cursorLoader;
+    }
+
+    @Override
+    public void onLoadFinished(@NonNull android.support.v4.content.Loader loader, Object cursor) {
+        if(cursor != null) {
+            FavoriteFragment favoriteFragment = FavoriteFragment.createYourFragmentWithCursor((Cursor) cursor);
+            FragmentManager fragmentManager = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.content_framelayout, favoriteFragment, "tag");
+            fragmentTransaction.commit();
+        }
+    }
+
+    @Override
+    public void onLoaderReset(@NonNull android.support.v4.content.Loader loader) {
+
     }
 }
