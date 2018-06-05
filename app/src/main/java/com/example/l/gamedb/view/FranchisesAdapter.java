@@ -35,16 +35,16 @@ import butterknife.ButterKnife;
 
 public class FranchisesAdapter extends RecyclerView.Adapter<FranchisesAdapter.FranchisesViewHolder>{
 
-    List<Franchise> franchises;
-    String key = BuildConfig.API_KEY;
-    List<Game> games;
+    private List<Franchise> franchises;
+    private List<Game> games;
     Context context;
     private APIWrapper wrapper;
     private Gson gson;
 
-    public FranchisesAdapter(List<Franchise> franchises, Context context){
+    FranchisesAdapter(List<Franchise> franchises, Context context){
         this.franchises = franchises;
         this.context = context;
+        String key = BuildConfig.API_KEY;
         wrapper = new APIWrapper(context, key);
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setDateFormat("M/d/yy hh:mm a");
@@ -69,7 +69,7 @@ public class FranchisesAdapter extends RecyclerView.Adapter<FranchisesAdapter.Fr
                     Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
                     context.startActivity(intent);
                 }catch (ActivityNotFoundException e){
-                    Toast.makeText(context, "Page not found", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, context.getString(R.string.page_not_found), Toast.LENGTH_LONG).show();
                     e.printStackTrace();
                 }
 

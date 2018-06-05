@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView android:layout_width="match_parent"
+<android.support.v4.widget.NestedScrollView android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -41,7 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginTop="16dp"
-        android:text="Visit"
+        android:text="@string/visit"
         android:textColor="@color/colorAccent"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -146,7 +146,9 @@
         android:src="@drawable/ic_baseline_share_24px"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:srcCompat="@color/colorAccent"/>
+        app:srcCompat="@color/colorAccent"
+        android:contentDescription="@string/share_description"
+        android:focusable="true" />
 
     <RatingBar
         android:id="@+id/GameRatingBar"
@@ -158,9 +160,10 @@
         android:isIndicator="true"
         style="?android:attr/ratingBarStyle"
         android:visibility="gone"
+        android:contentDescription="@string/rate_description"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/summery_content_textView" />
 
 
 </android.support.constraint.ConstraintLayout>
-</ScrollView>
+</android.support.v4.widget.NestedScrollView>

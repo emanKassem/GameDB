@@ -18,7 +18,8 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/game_cover"/>
 
         <TextView
             android:id="@+id/review_game_name_textView"

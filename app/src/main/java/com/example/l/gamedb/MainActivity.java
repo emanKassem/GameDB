@@ -5,6 +5,7 @@ import android.app.FragmentTransaction;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
@@ -28,6 +29,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, SearchView.OnQueryTextListener, LoaderCallbacks{
 
+    String action = "", ON_SAVE_INSTANCE_STATE = "state";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,11 +45,20 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+        if(savedInstanceState != null){
+            action = savedInstanceState.getString(ON_SAVE_INSTANCE_STATE);
+        }else {
+            action = "games";
+        }
+        changeFragment(action);
 
-        changeFragment("games");
 
+    }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(ON_SAVE_INSTANCE_STATE, action);
     }
 
     public void changeFragment(String argument){
@@ -60,7 +71,7 @@ public class MainActivity extends AppCompatActivity
         fragmentTransaction.replace(R.id.content_framelayout, gamesFragment, "tag");
         fragmentTransaction.commit();
     }
-    
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -106,37 +117,48 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
         switch (id){
             case R.id.companies:
-                changeFragment("companies");
+                action = "companies";
+                changeFragment(action);
                 break;
             case R.id.franchises:
-                changeFragment("franchises");
+                action = "franchises";
+                changeFragment(action);
                 break;
             case R.id.pages:
-                changeFragment("pages");
+                action = "pages";
+                changeFragment(action);
                 break;
             case R.id.reviews:
-                changeFragment("reviews");
+                action = "reviews";
+                changeFragment(action);
                 break;
             case R.id.action:
-                changeFragment("action");
+                action = "action";
+                changeFragment(action);
                 break;
             case R.id.historical:
-                changeFragment("historical");
+                action = "historical";
+                changeFragment(action);
                 break;
             case R.id.horror:
-                changeFragment("horror");
+                action = "horror";
+                changeFragment(action);
                 break;
             case R.id.drama:
-                changeFragment("drama");
+                action = "drama";
+                changeFragment(action);
                 break;
             case R.id.mystery:
-                changeFragment("mystery");
+                action = "mystery";
+                changeFragment(action);
                 break;
             case R.id.single_player:
-                changeFragment("singlePlayer");
+                action = "singlePlayer";
+                changeFragment(action);
                 break;
             case R.id.multi_player:
-                changeFragment("multiPlayer");
+                action = "multiPlayer";
+                changeFragment(action);
                 break;
         }
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

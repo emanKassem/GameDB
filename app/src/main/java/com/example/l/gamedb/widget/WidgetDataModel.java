@@ -26,9 +26,9 @@ import java.util.List;
 
 public class WidgetDataModel {
 
-    static List<Game> gameList;
+    List<Game> gameList;
     Context context;
-    static Cursor cursor;
+    Cursor cursor;
     String key = BuildConfig.API_KEY;
     APIWrapper wrapper;
     private Gson gson;

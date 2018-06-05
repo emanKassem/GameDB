@@ -43,4 +43,14 @@
     <string name="notifications_admin_channel_description">Notifications sent from the app admin</string>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
+    <string name="share_description">Share the game</string>
+    <string name="rate_description">Game rating</string>
+    <string name="page_not_found">Page not found</string>
+    <string name="game_cover">Game Cover</string>
+    <string name="favorite">Add to favorites</string>
+    <string name="expand_down">Expand down</string>
+    <string name="expand_up">Expand Up</string>
+    <string name="game_screenshots">Game Screenshots</string>
+    <string name="page_logo">Page logo</string>
+    <string name="youtube">Youtube channel</string>
 </resources>

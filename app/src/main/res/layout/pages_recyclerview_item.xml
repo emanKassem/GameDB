@@ -17,7 +17,8 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/page_logo"/>
 
         <TextView
             android:id="@+id/page_game_name_textView"
@@ -38,7 +39,6 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:paddingBottom="8dp"
-            android:text="Description"
             android:textSize="15sp"
             android:maxLines="3"
             app:layout_constraintStart_toStartOf="@+id/page_game_imageview"
@@ -52,7 +52,8 @@
             android:layout_marginTop="32dp"
             android:src="@drawable/ic_youtube"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/youtube"/>
 
     </android.support.constraint.ConstraintLayout>
 </android.support.v7.widget.CardView>

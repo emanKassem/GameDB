@@ -26,7 +26,9 @@ public class APIWrapper {
     private static String YOUTUBE_KEY = "";
 
     public APIWrapper(Context context, String API_KEY){
-        this.requestQueue = Volley.newRequestQueue(context);
+        if (context != null) {
+            this.requestQueue = Volley.newRequestQueue(context);
+        }
         this.API_KEY = API_KEY;
     }
 
