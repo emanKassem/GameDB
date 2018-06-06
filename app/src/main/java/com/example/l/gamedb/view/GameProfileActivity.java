@@ -1,5 +1,7 @@
 package com.example.l.gamedb.view;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
@@ -28,6 +30,7 @@ import com.example.l.gamedb.data.GameContract;
 import com.example.l.gamedb.model.APIWrapper;
 import com.example.l.gamedb.model.Game;
 import com.example.l.gamedb.model.Parameters;
+import com.example.l.gamedb.widget.GamesWidgetProvider;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.yarolegovich.discretescrollview.DiscreteScrollView;
@@ -108,6 +111,11 @@ public class GameProfileActivity extends AppCompatActivity {
                             @Override
                             public void onResponse(Bitmap bitmap) {
                                 backDropImageView.setImageBitmap(bitmap);
+                                AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(GameProfileActivity.this);
+                                int[] appWidgetIDs = appWidgetManager.getAppWidgetIds(new ComponentName(GameProfileActivity.this, GamesWidgetProvider.class));
+                                GamesWidgetProvider.latestOpenedGame = game;
+                                GamesWidgetProvider.gameImage = bitmap;
+                                GamesWidgetProvider.updateGamesWidget(GameProfileActivity.this, appWidgetManager, appWidgetIDs);
                             }
                         }, 0, 0, null,
                         new Response.ErrorListener() {
@@ -152,6 +160,7 @@ public class GameProfileActivity extends AppCompatActivity {
                     }
                 });
                 game2(game.getGames());
+
             }
 
             @Override
